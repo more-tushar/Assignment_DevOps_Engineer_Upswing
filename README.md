@@ -8,7 +8,19 @@ Create a **production-ready Helm chart** to deploy **RabbitMQ in a 3-node cluste
 
 ## 📁 Helm Chart Structure
 
-rabbitmq-helm/ │ ├── Chart.yaml # Helm chart metadata ├── values.yaml # Customizable configurations ├── charts/ # (Optional) Dependencies └── templates/ # Kubernetes manifests ├── statefulset.yaml ├── secret.yaml └── service.yaml
+rabbitmq-helm/ │
+├── Chart.yaml 
+# Helm chart metadata 
+├── values.yaml 
+# Customizable 
+configurations 
+├── charts/ 
+# (Optional) Dependencies 
+└── templates/ 
+# Kubernetes manifests 
+├── statefulset.yaml 
+├── secret.yaml 
+└── service.yaml
 
 ---
 
@@ -79,10 +91,10 @@ Option 2: Use kubectl:
 kubectl scale statefulset rabbit --replicas=5 -n rabbit-namespace
 
 🛠️ Troubleshooting
-CNI Plugin Issue:
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+ CNI Plugin Issue:
+ kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
 
-Image Pull Errors:
+### Image Pull Errors:
 
 Check pod status: kubectl get pods -n rabbit-namespace
 
@@ -96,13 +108,13 @@ Scheduling Failures:
 
 Pod stuck due to PVC or node resource issues
 
-📹 Demonstration Video
-🎥 Watch the deployment and clustering demo in this video.
+#📹 Demonstration Video
+#🎥 Watch the deployment and clustering demo in this video.
 
-📄 Documentation
+#📄 Documentation
 For detailed deployment steps, visit:
-📘 Documentation for Deploying RabbitMQ Using a Helm Chart on K8s.pdf
+#📘 Documentation for Deploying RabbitMQ Using a Helm Chart on K8s.pdf
 
 🙌 Author
 Tushar More
-GitHub: @more-tushar
+###GitHub: @more-tushar
