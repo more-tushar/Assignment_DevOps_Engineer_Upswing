@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbit
+  namespace: "{{ .Values.namespace }}"
+spec:
+  serviceName: rabbitmq-service
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:  
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq-container
+        image: rabbitmq:4.0-management
+        ports:
+        - containerPort: {{ .Values.service.ports.ss.port }}
+        - containerPort: {{ .Values.service.ports.management.port }}
+        env:
+        - name: RABBITMQ_ERLANG_COOKIE
+          value: "unique-cookie-value"
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            secretKeyRef:
+              name: rabbit-secret
+              key: adminUser
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              name: rabbit-secret
+              key: adminPassword
+          livenessProbe:
+            exec:
+              command:
+              - "rabbitmqctl"
+              - "status"
+            initialDelaySeconds: 90  
+            periodSeconds: 30
+            timeoutSeconds: 5        
+            failureThreshold: 5      
+          readinessProbe:
+            exec:
+              command:
+                - "rabbitmqctl"
+                - "status"
+            initialDelaySeconds: 90 
+            periodSeconds: 30
+            timeoutSeconds: 5        
+            failureThreshold: 5     
+        volumeMounts:
+        - name: rabbit-persistent-storage
+          mountPath: /var/lib/rabbitmq
+      volumes:
+      - name: rabbit-persistent-storage
+        nfs: 
+          server: 172.31.9.70
+          path: /var/lib/rabbitmq

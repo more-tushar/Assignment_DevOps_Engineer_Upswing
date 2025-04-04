@@ -1,0 +1,39 @@
+namespace: rabbit-namespace
+replicaCount: 3
+
+image:
+  repository: rabbitmq:4.0-management
+  pullPolicy: IfNotPresent
+  tag: ""
+
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  type: NodePort
+  ports:
+    ss:
+      port: 5672
+      targetPort: 5672
+      nodePort: 32501
+    management:
+      port: 15672
+      targetPort: 15672
+      nodePort: 32377  
+
+
+#  resources
+resources:
+  limits:
+    cpu: 500m
+    memory: 500Mi
+  requests:
+    cpu: 500m
+    memory: 500Mi
+
+
+rabbit:
+  adminUser: guest
+  adminPassword: guest
